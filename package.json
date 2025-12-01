@@ -1,14 +1,14 @@
 {
-  "name": "horizonjs",
-  "version": "1.0.0",
+  "name": "@ajax-16/horizonjs",
+  "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/horizon.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",
   "keywords": [],
-  "author": "",
+  "author": "David Bernárdez Luque",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^3.0.3",
