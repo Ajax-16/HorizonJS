@@ -1,6 +1,6 @@
 export class HorizonConfig {
 
-    constructor({logLevel, dbConfig, jwtSecret, emailConfig} = {}) {
+    constructor({logLevel, dbConfig, apiConfig, jwtSecret, emailConfig} = {}) {
         if (HorizonConfig.instance) return HorizonConfig.instance;
 
         this.logLevel = logLevel || 'ERROR';
@@ -11,6 +11,9 @@ export class HorizonConfig {
             password: '',
             database: ''
         };
+        this.apiProtocol = apiConfig.protocol || 'http';
+        this.apiHost =  apiConfig.host || 'localhost';
+        this.apiPort =  apiConfig.port || 3000;
         this.jwtSecret = jwtSecret || 'secret_jwt_key';
         this.emailConfig = emailConfig || {
             user: '',
