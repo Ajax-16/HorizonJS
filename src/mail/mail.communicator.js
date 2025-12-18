@@ -1,9 +1,10 @@
 import { HorizonConfig } from "../shared/config.js";
 import { transporter } from "./mailer.config.js"
 
-const email = HorizonConfig.getInstance().emailConfig.user;
-
 const sendMail = async ({mail, from = "Support", to}) => {
+    
+    const email = HorizonConfig.getInstance().emailConfig.user;
+
     if(!to || to.length === 0) return false;
     transporter.sendMail({
         from: `${from} <${email}>`,

@@ -4,9 +4,9 @@ import fs from "fs";
 import { Response } from "../models/response.js";
 import { HorizonConfig } from "../shared/config.js";
 
-const API_PROTOCOL = HorizonConfig.getInstance().apiProtocol;
-const API_HOST = HorizonConfig.getInstance().apiHost;
-const API_PORT = HorizonConfig.getInstance().apiPort;
+const getApiProtocol = () => HorizonConfig.getInstance().apiProtocol;
+const getApiHost = () => HorizonConfig.getInstance().apiHost;
+const getApiPort = () => HorizonConfig.getInstance().apiPort;
 
 sharp.cache(false);
 
@@ -22,6 +22,9 @@ const OPTIMIZED_DIR = "./src/storage/images/optimized";
 
 const processImage = async (fileName, description, size = 900) => {
     try {
+        const API_PROTOCOL = getApiProtocol();
+        const API_HOST = getApiHost();
+        const API_PORT = getApiPort();
         const sourceFilePath = `${RAW_DIR}/${fileName}`;
         const destFilePath = `${OPTIMIZED_DIR}/${fileName.split(".").shift()}.png`;
         const portPart = API_PORT ? `:${API_PORT}` : "";
