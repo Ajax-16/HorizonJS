@@ -47,9 +47,20 @@ export const processImage = async (filename, size = 900) => {
 
 export const bindFilesToBody = (bindings = []) => async (req, res, next) => {
     try {
+
+        if (req.body?.data) {
+            try {
+                req.body = JSON.parse(req.body.data);
+            } catch (err) {
+                return res.status(400).send({
+                    body: "JSON inválido en campo 'data'",
+                    error: err.message
+                });
+            }
+        }
+
         if (!req.files?.length) return next();
 
-        // Indexar files por fieldname
         const filesByField = {};
         for (const file of req.files) {
             filesByField[file.fieldname] = file;
@@ -57,16 +68,20 @@ export const bindFilesToBody = (bindings = []) => async (req, res, next) => {
 
         for (const rule of bindings) {
 
-            // SIMPLE FIELD
+            // Campo simple
             if (!rule.multiple) {
                 const file = filesByField[rule.file];
                 if (file) {
-                    setValue(req.body, rule.field, await processImage(file.filename));
+                    setValue(
+                        req.body,
+                        rule.field,
+                        await processImage(file.filename)
+                    );
                 }
                 continue;
             }
 
-            // ARRAY FIELD
+            // Campo array
             const [arrayPath, prop] = rule.field.split("[].");
             const items = getValue(req.body, arrayPath);
 
@@ -75,6 +90,7 @@ export const bindFilesToBody = (bindings = []) => async (req, res, next) => {
             for (let i = 0; i < items.length; i++) {
                 const key = rule.file.replace("*", i);
                 const file = filesByField[key];
+
                 if (file) {
                     items[i][prop] = await processImage(file.filename);
                 }
@@ -82,6 +98,7 @@ export const bindFilesToBody = (bindings = []) => async (req, res, next) => {
         }
 
         next();
+
     } catch (err) {
         res.status(500).send({
             body: "Error procesando archivos",
