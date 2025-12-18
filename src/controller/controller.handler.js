@@ -1,4 +1,4 @@
-import { conn } from "../db/conn.js";
+import { getSqlConnection } from "../db/conn.js";
 import { Response } from "../models/response.js";
 import { displayLogs } from "../shared/logger.js";
 
@@ -228,7 +228,7 @@ const addPaginationData = async (options) => {
         }
         if(options.paginated == 'true') {
             const { countQuery, queryParams } = options.count;
-            const [[{count}]] = await conn.query(countQuery, queryParams);
+            const [[{count}]] = await getSqlConnection().query(countQuery, queryParams);
 
         const response = {};
         if (count) {

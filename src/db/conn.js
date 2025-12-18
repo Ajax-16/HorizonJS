@@ -1,8 +1,12 @@
-import { createPool } from "mysql2/promise"
+import { createPool } from "mysql2/promise";
 import { HorizonConfig } from "../shared/config.js";
 
-const { dbConfig } = HorizonConfig.getInstance();
+let conn;
 
-const conn = createPool(dbConfig);
-
-export { conn };
+export const getSqlConnection = () => {
+    if (!conn) {
+        const { dbConfig } = HorizonConfig.getInstance();
+        conn = createPool(dbConfig);
+    }
+    return conn;
+};

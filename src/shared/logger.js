@@ -1,9 +1,10 @@
 import { format_date } from "../utils.js";
 import { HorizonConfig } from "./config.js";
 
-const logLevel = HorizonConfig.getInstance().logLevel;
-
 export const displayLogs = (req, res, err) => {
+
+    const { logLevel } = HorizonConfig.getInstance();
+
     let status;
     if (res) {
         status = res.statusCode;
@@ -34,7 +35,7 @@ export const displayLogs = (req, res, err) => {
             console.error(buildLog('ERROR', `${status} - ${req.method} ${req.originalUrl} | ${err.message || err.sqlMessage || err.code}`, req));
         }
     }
-    else if(req == 'ERROR') {
+    else if (req == 'ERROR') {
         status = 500;
         console.error(buildLog('ERROR', `${status} - ${res}`));
     }
