@@ -48,3 +48,17 @@ export function clean_text(txt) {
 export function format_date(date) {
     return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
 }
+
+export const getValue = (obj, path) =>
+    path.split(".").reduce((o, k) => o?.[k], obj);
+
+export const setValue = (obj, path, value) => {
+    const keys = path.split(".");
+    let cur = obj;
+    while (keys.length > 1) {
+        const k = keys.shift();
+        cur[k] ??= {};
+        cur = cur[k];
+    }
+    cur[keys[0]] = value;
+};
