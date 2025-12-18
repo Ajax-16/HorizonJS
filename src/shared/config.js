@@ -1,6 +1,6 @@
 export class HorizonConfig {
 
-    constructor({logLevel, dbConfig, apiConfig, jwtSecret, emailConfig} = {}) {
+    constructor({logLevel, dbConfig, apiConfig, jwtSecret, emailConfig, storageConfig} = {}) {
         if (HorizonConfig.instance) return HorizonConfig.instance;
 
         this.logLevel = logLevel || 'ERROR';
@@ -18,6 +18,11 @@ export class HorizonConfig {
         this.emailConfig = emailConfig || {
             user: '',
             password: ''
+        };
+
+        this.files = storageConfig || {
+            rawDir: './storage/files/raw',
+            optimizedDir: './storage/files/optimized'
         };
 
         HorizonConfig.instance = this;
