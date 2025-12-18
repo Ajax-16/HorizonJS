@@ -1,5 +1,5 @@
 import { Response } from "../models/response.js";
-import { verifyToken } from "../auth/jwt.handle.js";
+import { verifyToken } from "../auth/jwt.handler.js";
 
 const checkJWT = (req, res, next) => {
     try {
