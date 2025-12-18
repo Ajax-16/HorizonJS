@@ -7,7 +7,7 @@ import { getValue, setValue } from "../utils.js";
 
 sharp.cache(false);
 
-const getStoragePaths = () => {
+export const getStoragePaths = () => {
     const cfg = HorizonConfig.getInstance();
 
     return {
