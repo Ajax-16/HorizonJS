@@ -51,11 +51,17 @@ export const processImage = async (filename, size = 900) => {
     const dest = path.join(OPTIMIZED_DIR, `${name}.png`);
 
     await sharp(src)
-        .resize(size)
+        .rotate()
+        .resize({
+            width: size,
+            height: size,
+            fit: "inside",
+            withoutEnlargement: true
+        })
         .png({ compressionLevel: 9, force: true })
         .toFile(dest);
 
-    fs.unlink(src, () => {});
+    fs.unlink(src, () => { });
 
     const cfg = HorizonConfig.getInstance();
     const port = cfg.apiPort ? `:${cfg.apiPort}` : "";
